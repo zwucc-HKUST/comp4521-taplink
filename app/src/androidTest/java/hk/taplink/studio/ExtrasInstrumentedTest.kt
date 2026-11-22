@@ -76,6 +76,8 @@ class ExtrasInstrumentedTest {
         assertFalse(pass.covers(pass.endExclusive))
 
         reopen()
+        val restored = store.load().entries.filter { it.operation == payment.operation }
+        assertEquals(listOf("Reload", "Pass purchase"), restored.map { it.displayKind })
         store.buyExtrasPass(cardId, day, "buy")
         assertEquals(paid, store.load())
         assertEquals(pass, store.readExtras(cardId).pass)
@@ -152,6 +154,7 @@ class ExtrasInstrumentedTest {
         assertEquals(entry.delta, claim.credit)
 
         reopen()
+        assertEquals("Subsidy credit", store.load().entries.single { it.id == entry.id }.displayKind)
         store.claimExtrasSubsidy(cardId, month)
         assertEquals(credited, store.load())
         assertEquals(listOf(claim), store.readExtras(cardId).claims)

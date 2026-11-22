@@ -282,7 +282,7 @@ private fun WalletRecentEntry(entry: Entry, onClick: () -> Unit) {
         }
         Column(Modifier.weight(1f)) {
             Text(entry.label, style = MaterialTheme.typography.titleSmall)
-            Text(entry.kind + " · " + walletTimestamp(entry.at), style = MaterialTheme.typography.bodySmall,
+            Text(entry.displayKind + " · " + walletTimestamp(entry.at), style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         Text(walletDelta(entry.delta), style = MaterialTheme.typography.labelLarge,

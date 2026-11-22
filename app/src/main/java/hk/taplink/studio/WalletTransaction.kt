@@ -1,7 +1,5 @@
 package hk.taplink.studio
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -14,9 +12,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.FilterChip
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -24,12 +20,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.liveRegion
@@ -167,68 +161,5 @@ internal fun WalletTransactionDialog(
             }
         }
         WalletSecondaryButton("Cancel", !controller.busy, onDismiss)
-    }
-}
-
-@Composable
-internal fun WalletReceipt(entry: Entry, wallet: Wallet, onDismiss: () -> Unit) {
-    val context = LocalContext.current
-    var explicitlyRevealed by remember(entry.id, wallet.prefs.hidden) { mutableStateOf(false) }
-    val reveal = !wallet.prefs.hidden || explicitlyRevealed
-    var shareError by rememberSaveable(entry.id) { mutableStateOf(false) }
-    val relatedReload = if (entry.kind == "Payment" && entry.operation.isNotBlank()) {
-        wallet.entries.firstOrNull {
-            it.cardId == entry.cardId && it.operation == entry.operation && it.kind == "Reload"
-        }
-    } else null
-    val description = when (entry.kind) {
-        "Payment" -> "Simulated payment"
-        "Top-up" -> "Simulated top-up"
-        "Reload" -> "Simulated automatic reload"
-        else -> "Simulated " + entry.kind
-    }
-    val details = buildList<Pair<String, String>> {
-        add("Receipt" to "#" + entry.id)
-        add("Demo card" to walletCardNumber(entry.cardId))
-        val party = when (entry.kind) {
-            "Payment" -> "Merchant"
-            "Top-up" -> "Funding source"
-            else -> "Description"
-        }
-        add(party to entry.label)
-        add("Date and time" to walletTimestamp(entry.at))
-        if (relatedReload != null) {
-            add("Balance after payment" to if (reveal) money(entry.after) else "Hidden")
-            add("Automatic reload" to walletDelta(relatedReload.delta))
-        }
-        add("Resulting balance" to if (reveal) money(relatedReload?.after ?: entry.after) else "Hidden")
-    }
-    WalletDialog("Receipt", onDismiss) {
-        Text(description, style = MaterialTheme.typography.titleMedium)
-        Text(walletDelta(entry.delta), color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.headlineMedium)
-        HorizontalDivider()
-        details.forEach { (label, value) -> WalletDetail(label, value) }
-        if (wallet.prefs.hidden) {
-            WalletSecondaryButton(if (reveal) "Hide receipt balance" else "Show receipt balance") {
-                explicitlyRevealed = !explicitlyRevealed
-            }
-        }
-        if (shareError) WalletFormError("No app is available to share this receipt.")
-        OutlinedButton(onClick = {
-            val receiptText = buildString {
-                appendLine("TapLink · " + description)
-                appendLine("Amount: " + walletDelta(entry.delta))
-                details.forEach { (label, value) -> appendLine("$label: $value") }
-            }.trimEnd()
-            val send = Intent(Intent.ACTION_SEND).setType("text/plain")
-                .putExtra(Intent.EXTRA_TEXT, receiptText)
-            try {
-                context.startActivity(Intent.createChooser(send, "Share demo receipt"))
-            } catch (_: ActivityNotFoundException) {
-                shareError = true
-            }
-        }, modifier = Modifier.fillMaxWidth()) { Text("Share receipt") }
-        WalletPrimaryButton("Done", onClick = onDismiss)
     }
 }

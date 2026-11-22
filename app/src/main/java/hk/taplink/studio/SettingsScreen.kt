@@ -63,6 +63,11 @@ fun SettingsScreen(controller: WalletController) {
                     PreferenceSwitch("Hide balances", "Mask card balances in the wallet and widget.",
                         prefs.hidden, enabled) { value -> update { it.copy(hidden = value) } }
                     PreferenceDivider()
+                    PreferenceSwitch("Show balance on widget",
+                        if (prefs.hidden) "Your widget choice applies when you turn off Hide balances."
+                        else "Allow the home-screen widget to show your selected card's balance.",
+                        prefs.widgetBalanceVisible, enabled) { value -> update { it.copy(widgetBalanceVisible = value) } }
+                    PreferenceDivider()
                     PreferenceSwitch("Shake to hide or reveal", "Toggle balance visibility while viewing the wallet.",
                         prefs.shake, enabled) { value -> update { it.copy(shake = value) } }
                 }

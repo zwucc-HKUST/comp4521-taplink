@@ -1,14 +1,11 @@
 package hk.taplink.studio
 
 import android.app.DatePickerDialog
-import android.content.ActivityNotFoundException
 import android.content.Context
-import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
 import android.view.View
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -48,7 +45,6 @@ import java.util.Locale
 private val monthFormat = DateTimeFormatter.ofPattern("MMMM uuuu", Locale.ENGLISH)
 private val dayFormat = DateTimeFormatter.ofPattern("EEE, d MMM uuuu", Locale.ENGLISH)
 private val timeFormat = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH)
-private val receiptFormat = DateTimeFormatter.ofPattern("d MMM uuuu, HH:mm:ss z", Locale.ENGLISH)
 
 private data class LedgerFilter(
     val cardId: Long? = null,
@@ -103,7 +99,7 @@ fun ActivityScreen(controller: WalletController) {
         val term = query.trim()
         wallet.entries.filter { entry ->
             (filters.cardId == null || filters.cardId == entry.cardId) &&
-                (filters.kind == null || filters.kind == entry.kind) &&
+                (filters.kind == null || filters.kind == entry.displayKind) &&
                 (filters.category == null || filters.category == entry.category) &&
                 filters.includesDay(entry.date(zone).toEpochDay()) && entry.label.contains(term, ignoreCase = true)
         }.sortedWith(compareByDescending<Entry> { it.at }.thenByDescending { it.id })
@@ -121,6 +117,7 @@ fun ActivityScreen(controller: WalletController) {
     val defaultMonth = dates.keys.firstOrNull()?.let { YearMonth.from(it) } ?: months.first()
     val month = monthChoice?.let { YearMonth.parse(it) }?.takeIf { it in months } ?: defaultMonth
     val payments = remember(entries, month, zone) {
+        // The stored Payment kind includes both merchant payments and pass purchases.
         entries.filter { it.kind == "Payment" && YearMonth.from(it.date(zone)) == month }
     }
     val breakdown = remember(payments) {
@@ -202,7 +199,7 @@ fun ActivityScreen(controller: WalletController) {
     }
     val receipt = receiptId?.let { id -> wallet.entries.firstOrNull { it.id == id } }
     if (receipt != null) key(receipt.id) {
-        StoredReceipt(receipt, wallet, cards, zone, onDismiss = { receiptId = null })
+        WalletReceipt(receipt, wallet, onDismiss = { receiptId = null }, dismissLabel = "Close")
     }
 }
 
@@ -303,7 +300,7 @@ private fun LedgerRow(entry: Entry, card: String, zone: ZoneId, onClick: () -> U
         Row(Modifier.fillMaxWidth().padding(vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f)) {
                 Text(entry.label, style = MaterialTheme.typography.titleSmall, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                Text("${entry.kind} · $card", style = MaterialTheme.typography.bodySmall,
+                Text("${entry.displayKind} · $card", style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             Spacer(Modifier.width(10.dp))
@@ -349,7 +346,7 @@ private fun LedgerFiltersDialog(
             ActivityMenu(cardText(draft.cardId), listOf(null) + cardIds, cardText) { draft = draft.copy(cardId = it) }
             Text("Transaction type", style = MaterialTheme.typography.labelLarge)
             val kindText = { kind: String? -> kind ?: "All types" }
-            ActivityMenu(kindText(draft.kind), listOf(null, "Payment", "Top-up", "Reload"), kindText) {
+            ActivityMenu(kindText(draft.kind), listOf(null) + historyKinds, kindText) {
                 draft = draft.copy(kind = it)
             }
             Text("Category", style = MaterialTheme.typography.labelLarge)
@@ -406,60 +403,4 @@ private fun LedgerDatePicker(initialDay: Long?, onSelected: (Long) -> Unit, onDi
             dialog.dismiss()
         }
     }
-}
-
-@Composable
-private fun StoredReceipt(entry: Entry, wallet: Wallet, cards: Map<Long, Card>, zone: ZoneId, onDismiss: () -> Unit) {
-    val context = LocalContext.current
-    var revealed by remember(entry.id, wallet.prefs.hidden) { mutableStateOf(false) }
-    val visible = !wallet.prefs.hidden || revealed
-    val reload = remember(entry, wallet.entries) {
-        if (entry.kind == "Payment" && entry.operation.isNotBlank()) wallet.entries.firstOrNull {
-            it.cardId == entry.cardId && it.operation == entry.operation && it.kind == "Reload"
-        } else null
-    }
-    fun balance(cents: Long) = if (visible) money(cents) else "Hidden"
-    val fields = buildList {
-        add("Receipt" to "#${entry.id}")
-        add("Card" to cardCaption(entry.cardId, cards))
-        add("Date and time" to receiptFormat.format(Instant.ofEpochMilli(entry.at).atZone(zone)))
-        add("Category" to entry.category)
-        add("Balance after ${entry.kind.lowercase(Locale.ENGLISH)}" to balance(entry.after))
-        if (reload != null) {
-            add("Linked reload #${reload.id}" to reload.amountText())
-            add("Balance after reload" to balance(reload.after))
-        }
-    }
-    val title = "Simulated ${entry.kind.lowercase(Locale.ENGLISH)}"
-    AlertDialog(onDismissRequest = onDismiss, title = { Text("$title receipt") }, text = {
-        Column(Modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
-            Text(entry.label, style = MaterialTheme.typography.titleMedium)
-            Text(entry.amountText(), style = MaterialTheme.typography.headlineMedium, fontFamily = FontFamily.Serif)
-            Spacer(Modifier.height(12.dp))
-            HorizontalDivider()
-            fields.forEach { (name, value) ->
-                Column(Modifier.padding(top = 9.dp)) {
-                    Text(name, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Text(value, style = MaterialTheme.typography.bodyLarge)
-                }
-            }
-            if (wallet.prefs.hidden) TextButton(onClick = { revealed = !revealed }) {
-                Text(if (revealed) "Hide receipt balances" else "Reveal receipt balances")
-            }
-        }
-    }, confirmButton = { Button(onClick = {
-        val text = buildString {
-            appendLine("TapLink · $title receipt")
-            appendLine(entry.label)
-            appendLine("Amount: ${entry.amountText()}")
-            fields.forEach { (name, value) -> appendLine("$name: $value") }
-        }.trimEnd()
-        val intent = Intent(Intent.ACTION_SEND).setType("text/plain")
-            .putExtra(Intent.EXTRA_SUBJECT, "$title receipt #${entry.id}").putExtra(Intent.EXTRA_TEXT, text)
-        try {
-            context.startActivity(Intent.createChooser(intent, "Share simulated receipt"))
-        } catch (_: ActivityNotFoundException) {
-            Toast.makeText(context, "No sharing app is available.", Toast.LENGTH_SHORT).show()
-        }
-    }) { Text("Share receipt") } }, dismissButton = { TextButton(onClick = onDismiss) { Text("Close") } })
 }

@@ -2,6 +2,8 @@ name: Android checks
 on:
   push:
     branches: [astra-independent]
+  pull_request:
+    branches: [astra-independent]
   workflow_dispatch:
 permissions:
   contents: read
@@ -16,11 +18,22 @@ jobs:
           distribution: temurin
           java-version: '21'
       - uses: gradle/actions/setup-gradle@v5
-      - run: bash ./gradlew --no-daemon testDebugUnitTest lintDebug assembleDebug
+      - run: bash ./gradlew --no-daemon testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest
       - uses: actions/upload-artifact@v6
         with:
           name: TapLink-Astra
           path: |
             app/build/outputs/apk/debug/*.apk
+            app/build/outputs/apk/androidTest/debug/*.apk
             app/build/reports/tests/
             app/build/reports/lint-results-debug.html
+
+      - name: Package the team handoff
+        if: github.event_name != 'pull_request'
+        run: python3 tools/package.py "$RUNNER_TEMP/taplink-team"
+      - uses: actions/upload-artifact@v6
+        if: github.event_name != 'pull_request'
+        with:
+          name: TapLink-Team-Handoff
+          path: ${{ runner.temp }}/taplink-team/TapLink-Astra-Handoff.zip
+          if-no-files-found: error

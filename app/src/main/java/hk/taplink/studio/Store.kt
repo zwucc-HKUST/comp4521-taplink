@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 
 class Store internal constructor(context: Context, databaseName: String) :
-    SQLiteOpenHelper(context.applicationContext, databaseName, null, 1) {
+    SQLiteOpenHelper(context.applicationContext, databaseName, null, 2) {
 
     constructor(context: Context) : this(context, "taplink_astra.db")
 
@@ -63,7 +63,8 @@ class Store internal constructor(context: Context, databaseName: String) :
                 hidden INTEGER NOT NULL CHECK (hidden IN (0, 1)),
                 theme TEXT NOT NULL,
                 reminders INTEGER NOT NULL CHECK (reminders IN (0, 1)),
-                shake INTEGER NOT NULL CHECK (shake IN (0, 1))
+                shake INTEGER NOT NULL CHECK (shake IN (0, 1)),
+                $WIDGET_BALANCE_COLUMN
             )"""
         )
 
@@ -86,7 +87,10 @@ class Store internal constructor(context: Context, databaseName: String) :
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        throw SQLiteException("Unsupported wallet database upgrade from $oldVersion to $newVersion.")
+        if (oldVersion != 1 || newVersion != 2) {
+            throw SQLiteException("Unsupported wallet database upgrade from $oldVersion to $newVersion.")
+        }
+        db.execSQL("ALTER TABLE prefs ADD COLUMN $WIDGET_BALANCE_COLUMN")
     }
 
     internal fun <T> applyAndLoad(action: Store.() -> T): Pair<Result<T>, Wallet> =
@@ -243,13 +247,14 @@ class Store internal constructor(context: Context, databaseName: String) :
         }
 
     private fun SQLiteDatabase.preferences(): Prefs = rawQuery(
-        "SELECT selected, threshold, reload, auto, alerts, hidden, theme, reminders, shake FROM prefs WHERE id = 1",
+        """SELECT selected, threshold, reload, auto, alerts, hidden, theme, reminders, shake, widget_balance_visible
+           FROM prefs WHERE id = 1""",
         null
     ).use {
         check(it.moveToFirst()) { "Wallet preferences are missing." }
         Prefs(selected = it.getLong(0), threshold = it.getLong(1), reload = it.getLong(2),
             auto = it.flag(3), alerts = it.flag(4), hidden = it.flag(5), theme = it.getString(6),
-            reminders = it.flag(7), shake = it.flag(8))
+            reminders = it.flag(7), shake = it.flag(8), widgetBalanceVisible = it.flag(9))
     }
 
     private fun Prefs.values() = ContentValues().also { values ->
@@ -262,6 +267,7 @@ class Store internal constructor(context: Context, databaseName: String) :
         values.put("theme", theme)
         values.put("reminders", reminders)
         values.put("shake", shake)
+        values.put("widget_balance_visible", widgetBalanceVisible)
     }
 
     private fun cardName(name: String) = name.trim().also {
@@ -274,6 +280,8 @@ class Store internal constructor(context: Context, databaseName: String) :
     }
 
     private companion object {
+        const val WIDGET_BALANCE_COLUMN =
+            "widget_balance_visible INTEGER NOT NULL DEFAULT 0 CHECK (widget_balance_visible IN (0, 1))"
         const val CARD_COLUMNS = "id, name, cents, frozen"
         const val ENTRY_COLUMNS = "id, card_id, label, category, kind, delta, after_cents, at, operation"
     }

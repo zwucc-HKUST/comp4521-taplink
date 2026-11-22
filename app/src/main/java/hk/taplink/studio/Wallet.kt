@@ -9,7 +9,8 @@ data class Entry(val id: Long, val cardId: Long, val label: String, val category
 data class Note(val id: Long, val text: String, val at: Long)
 data class Prefs(val selected: Long = 1, val threshold: Long = 5000, val reload: Long = 10000,
                  val auto: Boolean = false, val alerts: Boolean = true, val hidden: Boolean = false,
-                 val theme: String = "System", val reminders: Boolean = true, val shake: Boolean = false)
+                 val theme: String = "System", val reminders: Boolean = true, val shake: Boolean = false,
+                 val widgetBalanceVisible: Boolean = false)
 data class Wallet(val cards: List<Card>, val entries: List<Entry>, val notes: List<Note>, val prefs: Prefs)
 
 fun money(cents: Long): String = String.format(Locale.US, "HK$%,.2f", BigDecimal.valueOf(cents, 2))
