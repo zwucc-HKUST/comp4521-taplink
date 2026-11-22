@@ -77,7 +77,9 @@ class WidgetRefreshJobInstrumentedTest {
                 // Revoke the opt-in and release the master mask while Android owns the retry.
                 // Write directly so the scheduled service is the only publisher that can repair the host.
                 store.changePrefs { it.copy(widgetBalanceVisible = false, hidden = false) }
-                val shell = automation.executeShellCommand("cmd jobscheduler run -f --user current ${context.packageName} $jobId")
+                val user = ParcelFileDescriptor.AutoCloseInputStream(automation.executeShellCommand("am get-current-user"))
+                    .bufferedReader().use { it.readText().trim().toInt() }
+                val shell = automation.executeShellCommand("cmd jobscheduler run -f --user $user ${context.packageName} $jobId")
                 ParcelFileDescriptor.AutoCloseInputStream(shell).bufferedReader().use { it.readText() }
                 awaitCondition {
                     content() == (selected.name to "Balance hidden") && scheduler.getPendingJob(jobId) == null
