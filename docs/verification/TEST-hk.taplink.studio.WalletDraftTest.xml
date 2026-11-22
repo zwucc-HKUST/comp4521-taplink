@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="hk.taplink.studio.WalletDraftTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-11-22T14:33:38" hostname="UZI" time="0.01">
+  <properties/>
+  <testcase name="recreateRetainsOrdinaryTextAndClearsAnOversizedPasteWithoutChangingItsAmount" classname="hk.taplink.studio.WalletDraftTest" time="0.01"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

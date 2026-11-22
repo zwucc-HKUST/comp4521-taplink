@@ -1,0 +1,1 @@
+ZXing Core 3.5.3 is bundled for offline merchant QR decoding. Copyright ZXing authors. Licensed under Apache License 2.0, included alongside the jar. The unmodified binary is from [Maven Central](https://repo.maven.apache.org/maven2/com/google/zxing/core/3.5.3/). SHA-256: 8d8064c1636fdaef7189dd9055c7d59950a8940a12f2293956446ec3c109fd82.

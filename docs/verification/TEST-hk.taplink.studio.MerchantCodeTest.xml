@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="hk.taplink.studio.MerchantCodeTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-22T14:33:38" hostname="UZI" time="0.068">
+  <properties/>
+  <testcase name="rejectsUnusableCodes" classname="hk.taplink.studio.MerchantCodeTest" time="0.061"/>
+  <testcase name="onlyThresholdsAcceptZero" classname="hk.taplink.studio.MerchantCodeTest" time="0.002"/>
+  <testcase name="enforcesExactAmountBoundaries" classname="hk.taplink.studio.MerchantCodeTest" time="0.001"/>
+  <testcase name="acceptsKnownMerchantAndExactCents" classname="hk.taplink.studio.MerchantCodeTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

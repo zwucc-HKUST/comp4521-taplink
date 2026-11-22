@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tap_widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tap_widget_surface"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tap_widget_name"
+        android:textSize="12sp"
+        android:textColor="#C7E6DD"
+        android:maxLines="1" />
+    <TextView
+        android:id="@+id/tap_widget_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tap_widget_open"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        android:ellipsize="end"
+        android:maxLines="1" />
+    <TextView
+        android:id="@+id/tap_widget_balance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tap_widget_hidden"
+        android:textColor="#FFF5DA"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:ellipsize="end"
+        android:maxLines="1" />
+</LinearLayout>

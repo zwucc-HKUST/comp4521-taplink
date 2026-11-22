@@ -1,0 +1,10 @@
+
+hk.taplink.studio.ExtrasInstrumentedTest:......
+hk.taplink.studio.MerchantImageTest:.
+hk.taplink.studio.StoreInstrumentedTest:...............
+
+Time: 5.139
+
+OK (22 tests)
+
+

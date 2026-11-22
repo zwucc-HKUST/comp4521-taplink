@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tap_widget_name">TapLink · Demo card</string>
+    <string name="tap_widget_open">Open wallet</string>
+    <string name="tap_widget_hidden">Balance hidden</string>
+</resources>
