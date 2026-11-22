@@ -27,3 +27,11 @@ A periodic Android job rotates the featured local stop and writes eligible weekl
 ## Evaluation questions
 
 Can a first-time user identify the charged card before confirming, explain a linked reload from the receipt and recover from an insufficient-funds error? Can a visitor find a service point after declining location access? These questions connect the proposal’s usability goals to observable actions. The host walkthrough supplies examples for demonstration. Device observations, test outcomes and participant feedback belong in the separate verification record. [Host walkthrough](DEMO.md) · [Feature matrix](FEATURE_MATRIX.md)
+
+## Executed checks
+
+The debug build passed five JVM and 22 Android instrumentation tests on the API 35 emulator, with zero Android lint findings. Selecting the coffee QR image produced a review for HK$18.50. Rotating the device retained that review. Confirmation reduced the selected card from HK$159.50 to HK$141.00, and a restart retained the balance. After approximate location was denied, choosing Wan Chai still produced a distance-sorted service list. Physical camera capture, shake sensitivity, launcher placement and normal daily scheduling remain for device evaluation. [Verification record](VERIFICATION.md)
+
+## Generative AI acknowledgement
+
+The group used GPT-6.2 Astra through OpenAI Codex for design guidance, Kotlin and Compose implementation, test generation, code review and documentation. Group members should record any further assistance and confirm their own contributions before submission. [AI-use record](AI_USE.md)
