@@ -1,10 +1,9 @@
-
 hk.taplink.studio.ExtrasInstrumentedTest:......
 hk.taplink.studio.MerchantImageTest:.
 hk.taplink.studio.StoreInstrumentedTest:...............
+hk.taplink.studio.WidgetPrivacyInstrumentedTest:...
+hk.taplink.studio.WidgetRefreshJobInstrumentedTest:.
 
-Time: 5.139
+Time: 6.975
 
-OK (22 tests)
-
-
+OK (26 tests)

@@ -2,6 +2,8 @@
 
 TapLink Astra is an English Android prototype for campus purchases, simulated stored-value cards and transport around Victoria Harbour. Install the demo APK on Android 10 or newer. An initial wallet includes three cards and a small ledger. No login is required.
 
+**Team members and coding agents:** start with the [project handover](AGENTS.md). It covers the working branch, app rules, build commands, verified flows and outstanding group submission tasks.
+
 ## Open the project
 
 Clone the `astra-independent` branch and open the directory containing `settings.gradle.kts` in Android Studio. Select Gradle JDK 21 and install SDK Platform 35. To run from Windows, use `.\gradlew.bat assembleDebug`. On macOS or Linux use `./gradlew assembleDebug`. Select a phone or emulator with API 29+ and run the app configuration.

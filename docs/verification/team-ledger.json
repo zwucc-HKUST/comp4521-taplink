@@ -1,0 +1,70 @@
+{
+  "device": "Pixel 6 emulator, Android API 35",
+  "method": "Read-only copy of the installed app database after transactions entered via the UI. Values are integer HK cents.",
+  "upgrade": {
+    "oldSchema": 1,
+    "newSchema": 2,
+    "cardsPreserved": 4,
+    "ledgerRowsPreserved": 11,
+    "preexistingPreferencesMatched": true,
+    "widgetOptInAfterUpgrade": false
+  },
+  "teamCard": {
+    "id": 4,
+    "name": "Team",
+    "cents": 12200,
+    "frozen": 0
+  },
+  "ledger": [
+    {
+      "id": 11,
+      "kind": "Top-up",
+      "label": "Demo wallet funds",
+      "delta": 10000,
+      "after_cents": 10000,
+      "category": "Top-up"
+    },
+    {
+      "id": 12,
+      "kind": "Payment",
+      "label": "Star Pier Coffee",
+      "delta": -3000,
+      "after_cents": 7000,
+      "category": "Food"
+    },
+    {
+      "id": 13,
+      "kind": "Reload",
+      "label": "Automatic reload",
+      "delta": 5000,
+      "after_cents": 12000,
+      "category": "Funding"
+    },
+    {
+      "id": 14,
+      "kind": "Payment",
+      "label": "Demo monthly pass",
+      "delta": -6000,
+      "after_cents": 6000,
+      "category": "Transport"
+    },
+    {
+      "id": 15,
+      "kind": "Reload",
+      "label": "Automatic reload",
+      "delta": 5000,
+      "after_cents": 11000,
+      "category": "Funding"
+    },
+    {
+      "id": 16,
+      "kind": "Top-up",
+      "label": "Fictional transport subsidy",
+      "delta": 1200,
+      "after_cents": 12200,
+      "category": "Subsidy"
+    }
+  ],
+  "debitOnlySpendCents": 9000,
+  "integrityCheck": "ok"
+}

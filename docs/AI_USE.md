@@ -9,3 +9,5 @@ TapLink Astra was developed independently from the student proposal with assista
 | Review and documentation | Tracing UI actions to store operations, checking thresholds and Hong Kong date boundaries in source, and drafting the report, host walkthrough and feature matrix. The demo’s example balances are calculated expectations. |
 
 **Member review is pending confirmation.** Before submission, each member should check the technical claims and AI-use description against their own work, correct any mismatch and record only the contributions and checks they can personally confirm. This draft makes no individual attribution or claim of member approval.
+
+The team edition used Codex for cross-version comparison, the unified receipt and history filters, widget privacy and database upgrade, regression tests, emulator verification and agent handover. The executed checks are recorded in [verification](VERIFICATION.md).

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="hk.taplink.studio.HistoryKindTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-22T15:09:12" hostname="UZI" time="0.048">
+  <properties/>
+  <testcase name="extrasKeepTheirTypeWhenTheDescriptionChanges" classname="hk.taplink.studio.HistoryKindTest" time="0.046"/>
+  <testcase name="reloadSharingThePassOperationKeepsItsOwnType" classname="hk.taplink.studio.HistoryKindTest" time="0.0"/>
+  <testcase name="ordinaryTransactionsCanUseTheSameLabelsAndCategoriesAsExtras" classname="hk.taplink.studio.HistoryKindTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

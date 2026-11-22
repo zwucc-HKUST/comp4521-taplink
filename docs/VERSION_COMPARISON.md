@@ -1,5 +1,7 @@
 # Choosing a version for the group demonstration
 
+This comparison describes the original two prototypes. The team edition now incorporates the receipt, transaction filters and widget privacy improvements on `astra-independent`. [Current handover](../AGENTS.md) · [Current verification](VERIFICATION.md)
+
 The standalone Astra implementation was built and tested before this comparison. Both versions run side by side on the same API 35 emulator. Open the [screen comparison](comparison.html) as a downloaded HTML file to switch between four pairs of screenshots offline.
 
 | Decision | Main · `1858cff` | Astra · `2334eac` |

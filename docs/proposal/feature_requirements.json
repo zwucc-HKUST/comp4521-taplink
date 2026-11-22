@@ -1,0 +1,146 @@
+[
+  {
+    "id": "F01",
+    "priority": "Must",
+    "feature": "Dashboard and cards",
+    "ref": "4.1; O1",
+    "behavior": "Show masked card ID, balance, status and recent activity. Create, rename, select, freeze and unfreeze demo cards.",
+    "acceptance": "At least three demo cards can be managed. Switching updates the Dashboard; freeze changes require confirmation."
+  },
+  {
+    "id": "F02",
+    "priority": "Must",
+    "feature": "Simulated top-up",
+    "ref": "4.2; O2",
+    "behavior": "Choose a fixed or custom positive amount, review and confirm a demo top-up, then show a receipt.",
+    "acceptance": "The selected balance and a top-up record update together. Receipt shows amount, timestamp and resulting balance."
+  },
+  {
+    "id": "F03",
+    "priority": "Must",
+    "feature": "Merchant payment",
+    "ref": "4.3; O2",
+    "behavior": "Choose a seeded merchant, enter an amount, review the selected card and confirm a simulated payment.",
+    "acceptance": "Invalid amounts, frozen cards and insufficient balances are rejected. Successful payments produce a receipt and matching debit."
+  },
+  {
+    "id": "F04",
+    "priority": "Must",
+    "feature": "Transaction history",
+    "ref": "4.4; O3",
+    "behavior": "Browse records; filter by card, category, date range and type; search merchant names and open details.",
+    "acceptance": "The result list matches all active filters and the search query. Details match the selected stored transaction."
+  },
+  {
+    "id": "F05",
+    "priority": "Must",
+    "feature": "Spending analysis",
+    "ref": "4.4; O3",
+    "behavior": "Show monthly spending totals and a category chart drawn with a custom Android View and Canvas.",
+    "acceptance": "Totals and chart values agree with the applicable payment records. Top-ups are excluded from spending."
+  },
+  {
+    "id": "F06",
+    "priority": "Must",
+    "feature": "Persistent consistent data",
+    "ref": "2.1; O1, O2",
+    "behavior": "Store cards and records locally. Commit balance changes and all related ledger records as one database transaction.",
+    "acceptance": "Data survives restart. A rejected, cancelled or failed operation leaves both the balance and transaction history unchanged."
+  },
+  {
+    "id": "F07",
+    "priority": "Must",
+    "feature": "Screen state and feedback",
+    "ref": "2.1; O4",
+    "behavior": "Retain relevant form and filter state across rotation. Provide loading, empty, error and success states.",
+    "acceptance": "Core workflows remain usable after rotation. Empty lists and invalid inputs show clear feedback without losing valid input."
+  },
+  {
+    "id": "F08",
+    "priority": "Should",
+    "feature": "Automatic reload",
+    "ref": "4.2; O2",
+    "behavior": "Configure an enable switch, threshold and reload amount. After an affordable payment, stage one reload if the remaining balance is low.",
+    "acceptance": "At most one reload occurs per payment. Reload, payment and final balance commit together; an initially unaffordable payment is rejected."
+  },
+  {
+    "id": "F09",
+    "priority": "Should",
+    "feature": "Low-balance alerts and messages",
+    "ref": "4.5; O5",
+    "behavior": "After a successful payment, alert when the final balance is below the selected threshold. Maintain an in-app message list.",
+    "acceptance": "The alert reflects the committed balance and user preferences. If OS notifications are unavailable, the in-app message remains accessible."
+  },
+  {
+    "id": "F10",
+    "priority": "Should",
+    "feature": "Scheduled reminders and refresh",
+    "ref": "4.5; O5",
+    "behavior": "Schedule deferrable reminders and demo content refresh. Include expiry reminders when pass or reward features are implemented.",
+    "acceptance": "Persistent work respects preferences. Any alarm is inexact; the app promises no exact delivery time. Refresh failure leaves local data usable."
+  },
+  {
+    "id": "F11",
+    "priority": "Should",
+    "feature": "Nearby service discovery",
+    "ref": "4.6; O5",
+    "behavior": "Show seeded locations in map and list views with type filters, details, approximate distance and an external map intent.",
+    "acceptance": "Approximate location is supported. Denial offers manual district selection. Locations are labelled as demo data; core wallet tasks still work."
+  },
+  {
+    "id": "F12",
+    "priority": "Should",
+    "feature": "Preferences",
+    "ref": "4.9; O4, O5",
+    "behavior": "Configure theme, default card, low-balance threshold, reminder preferences and balance visibility.",
+    "acceptance": "Saved preferences survive restart and update the relevant screens and reminder behavior."
+  },
+  {
+    "id": "F13",
+    "priority": "Could",
+    "feature": "Merchant QR entry",
+    "ref": "4.3; O6",
+    "behavior": "Scan an app-defined merchant QR code to populate the merchant and demo amount, then review before payment.",
+    "acceptance": "Scanning never pays automatically. Invalid codes show feedback; manual merchant and amount entry remain available."
+  },
+  {
+    "id": "F14",
+    "priority": "Could",
+    "feature": "Receipt sharing",
+    "ref": "4.4; O6",
+    "behavior": "Share a text receipt through an Android share intent.",
+    "acceptance": "Shared text matches the stored transaction and clearly describes a simulated payment or top-up."
+  },
+  {
+    "id": "F15",
+    "priority": "Could",
+    "feature": "Transport services",
+    "ref": "4.7; O6",
+    "behavior": "Buy a simulated monthly pass with demo balance; show validity, transport spending, fictional subsidy rules and claim history.",
+    "acceptance": "Pass payment follows the same transaction rules. Expiry is visible; subsidy results are clearly fictional and do not imply official entitlement."
+  },
+  {
+    "id": "F16",
+    "priority": "Could",
+    "feature": "Offers and rewards",
+    "ref": "4.8; O6",
+    "behavior": "Browse seeded offers, view details and expiry, save favorites and redeem a simulated coupon.",
+    "acceptance": "Offer state persists locally. A coupon cannot be redeemed twice; every offer and redemption remains labelled as demo content."
+  },
+  {
+    "id": "F17",
+    "priority": "Could",
+    "feature": "Home-screen widget",
+    "ref": "4.9; O6",
+    "behavior": "Display the selected demo card with user-controlled balance visibility and a shortcut to the Dashboard.",
+    "acceptance": "The widget reflects the selected card and stored balance. Hiding the balance prevents its display outside the app."
+  },
+  {
+    "id": "F18",
+    "priority": "Could",
+    "feature": "Shake visibility toggle",
+    "ref": "4.9; O6",
+    "behavior": "Optionally shake to hide or reveal the balance only while the Dashboard is visible; provide the same on-screen control.",
+    "acceptance": "No gesture triggers a payment. Missing sensors do not block use, and listeners stop when the Dashboard leaves its active lifecycle."
+  }
+]

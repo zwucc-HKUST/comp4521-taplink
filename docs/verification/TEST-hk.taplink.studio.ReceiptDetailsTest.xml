@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="hk.taplink.studio.ReceiptDetailsTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-22T15:09:12" hostname="UZI" time="0.065">
+  <properties/>
+  <testcase name="hiddenBalancesRequireAnExplicitRevealForBothDisplayAndShare" classname="hk.taplink.studio.ReceiptDetailsTest" time="0.061"/>
+  <testcase name="onlyTheSameCardAndNonblankOperationCanSupplyALinkedLeg" classname="hk.taplink.studio.ReceiptDetailsTest" time="0.001"/>
+  <testcase name="paymentAndReloadOpenTheSameHistoricalReceipt" classname="hk.taplink.studio.ReceiptDetailsTest" time="0.002"/>
+  <testcase name="passAndSubsidyUseSemanticKindsAndTheirOwnLedgerBalances" classname="hk.taplink.studio.ReceiptDetailsTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

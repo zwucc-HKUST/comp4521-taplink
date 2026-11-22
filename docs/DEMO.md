@@ -27,3 +27,10 @@ Use an Android 10 or newer demo device with Astra installed. For file selection,
 - **Reload and alert.** To demonstrate from step 4’s HK$81.50 balance, do this before buying the pass. Set the threshold to HK$80 and the reload amount to HK$25. With automatic reload on, pay using **FERRY.png**. The receipt should show HK$73.30 after payment and HK$98.30 after reload. Turn reload off, enable low-balance alerts and pay using **BOOKS.png**. Open **Settings → Inbox** to show the alert at HK$56.30. Top up before continuing to the HK$60 pass.
 - **Location fallback.** In **Explore**, tap **Use my location** and decline if prompted. Choose **Choose district → Central**, switch to **List** and open a transport stop. Ask where its distance is measured from, then switch to **Map** to show the same stop.
 - **Freeze and privacy.** In **Wallet → Cards**, select the demo card and confirm **Freeze**. Return to Wallet to show the disabled **Pay** and **Top up** actions. Unfreeze it to continue. Hide the balance with the eye button and show the masked amount on the launcher widget if one is installed.
+
+
+## Show the team edition
+
+- After a linked reload, open the debit and reload separately in Activity. Both identify the same purchase receipt and show the intermediate balance, credit and final balance. Tap **Share receipt** to inspect the text in the Android chooser.
+- Buy a pass and claim the eligible fictional credit. In **Activity → Filters**, choose **Pass purchase**, then **Subsidy credit**. Each type isolates the relevant record. A subsidy contributes zero to spending.
+- In **Settings**, **Show balance on widget** controls the launcher balance. **Hide balances** overrides it. For a launcher demo, add the widget before recording.

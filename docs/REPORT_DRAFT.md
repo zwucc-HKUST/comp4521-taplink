@@ -20,7 +20,7 @@ Amounts are stored as whole HK cents. Inside one database transaction, the store
 
 ## Android integration and design limits
 
-Activity groups records by Hong Kong date and draws category shares in a custom Android Canvas view. Explore ranks six bundled service points by straight-line distance from a district centre or a foreground approximate location. A district choice keeps the guide usable when a visitor declines location access. Android supplies the optional camera, map and sharing apps. The launcher widget follows the selected card and its balance-visibility setting.
+Activity groups records by Hong Kong date and draws category shares in a custom Android Canvas view. Explore ranks six bundled service points by straight-line distance from a district centre or a foreground approximate location. A district choice keeps the guide usable when a visitor declines location access. Android supplies the optional camera, map and sharing apps. The launcher widget follows the selected card. It shows the balance only after separate opt-in and while wallet balances are visible. The database upgrade defaults existing installations to a masked widget.
 
 A periodic Android job rotates the featured local stop and writes eligible weekly and expiry reminders. Delivery time depends on Android scheduling, and system notifications depend on permission and channel settings. Pass dates and coupon expiry use Hong Kong calendar days. A HK$60 monthly pass counts as transport spending toward one fictional HK$12 credit per card per qualifying month. These are local demonstration rules. The prototype does not issue travel tickets, link bank accounts or settle payments with Octopus or FPS.
 
@@ -30,7 +30,9 @@ Can a first-time user identify the charged card before confirming, explain a lin
 
 ## Executed checks
 
-The debug build passed five JVM and 22 Android instrumentation tests on the API 35 emulator, with zero Android lint findings. Selecting the coffee QR image produced a review for HK$18.50. Rotating the device retained that review. Confirmation reduced the selected card from HK$159.50 to HK$141.00, and a restart retained the balance. After approximate location was denied, choosing Wan Chai still produced a distance-sorted service list. Physical camera capture, shake sensitivity, launcher placement and normal daily scheduling remain for device evaluation. [Verification record](VERIFICATION.md)
+The original Astra debug build passed five JVM and 22 Android instrumentation tests on the API 35 emulator, with zero Android lint findings. Selecting the coffee QR image produced a review for HK$18.50. Rotating the device retained that review. Confirmation reduced the selected card from HK$159.50 to HK$141.00, and a restart retained the balance. After approximate location was denied, choosing Wan Chai still produced a distance-sorted service list. Physical camera capture, shake sensitivity, launcher placement and normal daily scheduling remain for device evaluation. [Verification record](VERIFICATION.md)
+
+In the team edition, opening either row of a payment and automatic reload displays the same receipt. In an emulator walkthrough the card moved from HK$100 to HK$70 after a purchase, then to HK$120 after one HK$50 reload. The monthly pass filter showed HK$60 of spending. The subsidy filter showed a HK$12 credit and HK$0 of spending. On upgrade, all four existing cards, all eleven prior ledger records and the existing preferences survived. The team edition passed 12 JVM and 26 Android instrumentation tests with zero lint findings. The verification record identifies the tested APK and device.
 
 ## Generative AI acknowledgement
 
